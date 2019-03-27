@@ -25,7 +25,6 @@ class prueba(unittest.TestCase):
             adn.calcular_correspondencia('ABCD', 'FGHI')
 
     def test_corresponden(self):
-        self.assertEqual(adn.calcular_correspondencia('GATA', 'CATA'), 0.75)
-        self.assertEqual(adn.calcular_correspondencia('TCT', 'GAT'), 0.3333333333333333)
-        with self.assertRaises(TypeError):
-            adn.calcular_correspondencia('ABCD', 'FGHI')
+        self.assertEqual(adn.calcular_correspondencia('GATA', 'GATA'), True)
+        self.assertEqual(adn.calcular_correspondencia('TCT', 'GAT'), False)
+        self.assertEqual(adn.calcular_correspondencia('TCTG', 'GATC'), False)
