@@ -42,6 +42,11 @@ def es_cadena_valida(adn):
 
     """
 
+    for letra in adn:
+        if not es_base(letra):
+            return False
+    return True
+
 
 def es_base(caracter):
     """
@@ -81,6 +86,17 @@ def es_base(caracter):
     ValueError: 1 no es una base
 
     """
+
+    if (base == 'A'):
+        return 'T'
+    if(base == 'T'):
+        return 'A'
+    if(base == 'C'):
+        return 'G'
+    if (base == 'G'):
+        return 'C'
+    else:
+        raise ValueError (base + ' no es una base')
 
 
 def es_subcadena(adn1, adn2):
@@ -127,6 +143,19 @@ def es_subcadena(adn1, adn2):
 
     """
 
+    if not es_cadena_valida(adn1) or not es_cadena_valida(adn2):
+        raise ValueError('Una de las cadenas no es valida')
+    if len(adn1) > len(adn2) and es_cadena_valida(adn1) and es_cadena_valida(adn2):
+        return adn2 in adn1
+    if len(adn1) < len(adn2):
+        es_cadena_valida(adn1) and es_cadena_valida(adn2)
+        return adn1 in adn2
+    if adn1 == adn2:
+        es_cadena_valida(adn1) and es_cadena_valida(adn2)
+        return 'Las cadenas son iguales'
+    if len(adn1) == len(adn2):
+        es_cadena_valida(adn1) and es_cadena_valida(adn2)
+        return 'Las cadenas deben ser de diferente tamanio'
 
 def reparar_dano(adn, base):
     """
@@ -161,6 +190,20 @@ def reparar_dano(adn, base):
     ['A', 'C', 'G', 'T']
 
     """
+
+    lista_2 = []
+
+    if not es_cadena_valida(adn) and not es_base(base):
+        raise ValueError(base, 'no es una base')
+    elif es_cadena_valida(adn):
+        raise ValueError('esa cadena esta bien')
+    elif not es_cadena_valida(adn) and es_base(base):
+        for letra in adn:
+            if es_base(letra):
+                lista_2 += letra
+            if not es_base(letra):
+                lista_2 += base
+        return lista_2
 
 
 def obtener_secciones(adn, n):
