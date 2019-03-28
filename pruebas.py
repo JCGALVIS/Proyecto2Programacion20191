@@ -60,11 +60,14 @@ class prueba(unittest.TestCase):
             adn.reparar_dano(['G', 'P', 'C', 'G'], 'H'),['C', 'A', 'C']
 
    def test_obtener_secciones(self):
-        self.assertEqual(adn.obtener_secciones('AGATAGA'), 3)
-        self.assertEqual(adn.obtener_secciones('GATATACA'), 4)
-        self.assertEqual(adn.obtener_secciones('tacaga'), 2)
+        self.assertEqual(adn.obtener_secciones('AGATAGA',3), 'AG ATAGA')
+        self.assertEqual(adn.obtener_secciones('GATATACA', 4), 'GA TATACA')
+        self.assertEqual(adn.obtener_secciones('tacaga', 2), 'TAC AGA')
+        self.assertRaises(ZeroDivisionError, lambda: adn.obtener_complementos('ACCG', 0))
         with self.assertRaises(TypeError):
-            adn.obtener_secciones('GCTI')
+            adn.obtener_secciones('ACGC', 'A')
+        with self.assertRaises(TypeError):
+            adn.obtener_secciones('GCTI',2)
 
     def test_obtener_complementos(self):
         self.assertEqual(adn.obtener_complementos(['GATATACA', 'TATACACA', 'TCTATGTA', 'TAGAGATA','GATA']), ['CTATATGT','ATATGTGT','AGATACAT', 'ATCTCTAT','CTAT'])
@@ -76,14 +79,15 @@ class prueba(unittest.TestCase):
         self.assertEqual(adn.unir_cadena(['GACA', 'TAC', 'GATA']), 'GACATACGATA')
         self.assertEqual(adn.unir_cadena(['TATA', 'GATAGA', 'TG']), 'TATAGATAGATG')
         with self.assertRaises(TypeError):
-            adn.unir_cadena(['FAFSAS', 'UTASF'])
+            adn.unir_cadena(['FAFSAS','UTASF'])
 
     def test_complementar_cadenas(self):
         self.assertEqual(adn.complementar_cadenas(['GATATA','TATACA','CAGATCA']), ['CTATAT', 'ATATGT', 'GTCTAGT'])
         self.assertEqual(adn.complementar_cadenas(['TATACAGA','TATAGA','TCACAG']), ['ATATGTCT','ATATCT','AGTGTC'])
         with self.assertRaises(TypeError):
-            adn.unir_cadena(['AFTAGA','UTASF'])
+            adn.complementar_cadenas(['AFTAGA','UTASF'])
 
 if __name__ == 'main':
 
     unittest.main()
+
