@@ -22,6 +22,24 @@ def obtener_complemento(base):
     :return: El complemento de la base ingresada
     '''
 
+    complemento = '';
+    letra = base.upper()
+
+    if (letra in ('ATCG')):
+
+        if (letra == 'A'):
+            complemento = 'T'
+        if (letra == 'T'):
+            complemento = 'A'
+        if (letra == 'C'):
+            complemento = 'G'
+        if (letra == 'G'):
+            complemento = 'C'
+    else:
+        raise TypeError(str(base) + ' es una base invalida.')
+
+    return complemento
+
 
 def generar_cadena_complementaria(adn):
     '''
@@ -44,6 +62,13 @@ def generar_cadena_complementaria(adn):
     :return: El complemento deL AND ingresado
     '''
 
+    cadenaComplementaria = ''
+    complemento = ''
+
+    for base in adn:
+        cadenaComplementaria += obtener_complemento(base);
+
+    return cadenaComplementaria
 
 
 def calcular_correspondencia(adn1, adn2):
@@ -52,22 +77,48 @@ def calcular_correspondencia(adn1, adn2):
 
     Calcula la correspondiencia entre dos ADN
 
-    >>> calcular_correspondencia('GATA', 'CATA')
-    0.75
+    >>> calcular_correspondencia('GATA', 'CTAT')
+    100.0
 
-    >>> calcular_correspondencia('TCT', 'GAT')
-    00.3333333333333333
+    >>> calcular_correspondencia('TCT', 'GGA')
+    66.66666666666666
 
-    >>> calcular_correspondencia('TCT', 'GAT')
-    Traceback (most recent call last):
-    ..
-    TypeError: Una de las cadenas no es valida.
+    >>> calcular_correspondencia('TCTA', 'AGGT')
+    75.0
 
-    :param adn1:
-    :param adn2:
+    >>> calcular_correspondencia('GATA', 'CTA')
+    75.0
+
+    :param adn1: represnta el primer ADN
+    :param adn2: represneta el segundo ADN
     :return:
     '''
-    pass
+
+    complemento = ''
+    contador = 0
+    baseAdn2 = ''
+    mayorLongitud = 0
+    contadorCorrespondencia = 0
+
+    if len(adn1) >= len(adn2):
+        mayorLongitud = len(adn1)
+    else:
+        mayorLongitud = len(adn2)
+
+    for baseAdn1 in adn1:
+        baseAdn2 = ''
+        complemento = obtener_complemento(baseAdn1)
+
+        if len(adn2) > contador:
+            baseAdn2 = adn2[contador]
+
+        contador += 1
+
+        if complemento == baseAdn2:
+            contadorCorrespondencia += 1
+
+    return (contadorCorrespondencia / mayorLongitud) * 100
+
 
 
 def corresponden(adn1, adn2):
@@ -76,7 +127,7 @@ def corresponden(adn1, adn2):
 
     Valida la correspondiencia entre dos ADN
 
-    >>> corresponden('GATA', 'GATA')
+    >>> corresponden('GATA', 'CTAT')
     True
 
     >>> corresponden('TCT', 'GAT')
@@ -85,11 +136,15 @@ def corresponden(adn1, adn2):
     >>> corresponden('TCTG', 'GATC')
     False
 
+    >>> corresponden('GATA', 'CTA')
+    False
+
     :param adn1: represnta el primer ADN
     :param adn2: represneta el segundo ADN
     :return: una cadena true que representa que la correspondiencia es 100% y false si no corresponde
     '''
-    pass
+
+    return (100.0 == calcular_correspondencia(adn1, adn2))
 
 
 def es_cadena_valida(adn):
