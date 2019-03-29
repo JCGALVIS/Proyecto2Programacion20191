@@ -86,6 +86,9 @@ def calcular_correspondencia(adn1, adn2):
     >>> calcular_correspondencia('TCTA', 'AGGT')
     75.0
 
+    >>> calcular_correspondencia('GATA', 'CTA')
+    75.0
+
     :param adn1: represnta el primer ADN
     :param adn2: represneta el segundo ADN
     :return:
@@ -103,8 +106,11 @@ def calcular_correspondencia(adn1, adn2):
         mayorLongitud = len(adn2)
 
     for baseAdn1 in adn1:
-        complemento = obtener_complemento(baseAdn1);
-        baseAdn2 = adn2[contador]
+        baseAdn2 = ''
+        complemento = obtener_complemento(baseAdn1)
+
+        if len(adn2) > contador:
+            baseAdn2 = adn2[contador]
 
         contador += 1
 
@@ -128,6 +134,9 @@ def corresponden(adn1, adn2):
     False
 
     >>> corresponden('TCTG', 'GATC')
+    False
+
+    >>> corresponden('GATA', 'CTA')
     False
 
     :param adn1: represnta el primer ADN
