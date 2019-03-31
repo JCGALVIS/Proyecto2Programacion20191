@@ -181,12 +181,9 @@ def es_cadena_valida(adn):
 def es_base(caracter):
     """
 
-    Ingresa un caracter, se determina si es True o False
-
     Str -> Bool
 
-    :param caracter: Una letra en mayuscula
-    :return: Si es valida o no
+    Ingresa un caracter, se determina si es True o False
 
     >>> es_base('A')
     True
@@ -214,31 +211,35 @@ def es_base(caracter):
     Traceback (most recent call last):
     ..
     ValueError: 1 no es una base
+    >>> es_base('')
+    Traceback (most recent call last):
+    ..
+    ValueError: Ingrese un caracter
+
+    :param caracter: Una letra en mayuscula
+    :return: Si es valida o no
 
     """
 
-    if (base == 'A'):
-        return 'T'
-    if(base == 'T'):
-        return 'A'
-    if(base == 'C'):
-        return 'G'
-    if (base == 'G'):
-        return 'C'
-    else:
-        raise ValueError (base + ' no es una base')
+    base = caracter.upper()
 
+    if base in 'TCGA' and len(base) == 1:
+        return True
+    elif base not in 'TCGA' and len(base) > 1:
+        raise ValueError(base + ' no es una base')
+    elif base.isdigit() and len(base) == 1:
+        raise ValueError(base + ' no es una base')
+    elif base == '':
+        raise ValueError('Ingrese un caracter')
+    else:
+        return False
 
 def es_subcadena(adn1, adn2):
     """
 
-    Ingresan dos cadenas y se determina si una es complemento de la otra
-
     (Str, Str) -> Bool
 
-    :param adn1: La primera cadena de ADN
-    :param adn2: La segunda cadena de ADN
-    :return: True Or false, rependiendo el caso
+    Ingresan dos cadenas y se determina si una es complemento de la otra
 
     >>> es_subcadena('AGATA','ATA')
     True
@@ -270,6 +271,10 @@ def es_subcadena(adn1, adn2):
     Traceback (most recent call last):
     ..
     ValueError: Una de las cadenas no es valida
+
+    :param adn1: La primera cadena de ADN
+    :param adn2: La segunda cadena de ADN
+    :return: True Or false, rependiendo el caso
 
     """
 
