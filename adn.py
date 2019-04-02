@@ -339,10 +339,15 @@ def obtener_secciones(adn, n):
     """
     Una función obtener secciones que entregue una lista de secciones, dada una cadena de adn y un numero de secciones
     str -> list of str
+
      >>> obtener_secciones('AGATAGA', 3)
     'AG ATAGA'
     >>> obtener_secciones('GATATACA', 4)
     'GA TATACA'
+
+    >>> obtener_secciones('AGATAGA', 3)
+    >>> obtener_secciones('GATATACA', 4)
+
     >>> obtener_secciones('tacaga', 2)
     'TAC AGA'
     >>> obtener_secciones('ACGC', 'A')
@@ -351,14 +356,18 @@ def obtener_secciones(adn, n):
     >>> obtener_secciones('ACCG', 0)
     Traceback (most recent call last):
     ..
+    
     ZeroDivisionError: La división por cero no es posible
     >>> obtener_secciones('GTI', 2)
     'GTI no es cadena valida'
+    
+    ValueError: la cadena no es valida
 
     :param adn: Ingresa una caracteres representada por adn
     :param n: Ingresa un numero representado por n
     :return: se retornara una lista de las secciones del srt
     """
+
     validar_cadena = es_cadena_valida(adn)
     dato = len(adn)
     if validar_cadena:
@@ -394,6 +403,7 @@ def obtener_complementos(lista_adn):
     :param lista_adn: list of str entrega una lista de cadenas complemento
     :return: se retornara una lista de cadenas complementarias
     """
+
     nueva_lista = []
     for neu in lista_adn:
         if es_cadena_valida(neu):
@@ -419,7 +429,7 @@ def unir_cadena(lista_adn):
     :param lista_adn: ingresa una list of str de cadenas adn
     :return: retorna una cadena completa
     """
-
+    
     concat = ''
 
     for list_new in lista_adn:
@@ -428,7 +438,6 @@ def unir_cadena(lista_adn):
         else:
             raise ValueError('la cadenas no es valida')
     return concat
-
 
 def complementar_cadenas(lista_adn):
     """
@@ -446,6 +455,7 @@ def complementar_cadenas(lista_adn):
     :param lista_adn: ingresa una list of str de cadenas complemento
     :return:se retornara una lista de cadenas complementarias
     """
+    
     lista_nueva = ''
     for neue in lista_adn:
         if es_cadena_valida(neue):
