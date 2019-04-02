@@ -39,7 +39,6 @@ def obtener_complemento(base):
 
     return complemento
 
-
 def generar_cadena_complementaria(adn):
     '''
     str -> str
@@ -67,7 +66,6 @@ def generar_cadena_complementaria(adn):
         cadenaComplementaria += obtener_complemento(base);
 
     return cadenaComplementaria
-
 
 def calcular_correspondencia(adn1, adn2):
     '''
@@ -122,8 +120,6 @@ def calcular_correspondencia(adn1, adn2):
 
     return (contadorCorrespondencia / mayorLongitud) * 100
 
-
-
 def corresponden(adn1, adn2):
     '''
     (str, str) -> boleano
@@ -154,7 +150,6 @@ def corresponden(adn1, adn2):
 
     return (100.0 == calcular_correspondencia(adn1, adn2))
 
-
 def es_cadena_valida(adn):
     """
 
@@ -184,7 +179,6 @@ def es_cadena_valida(adn):
         if not es_base(letra):
             return False
     return True
-
 
 def es_base(caracter):
     """
