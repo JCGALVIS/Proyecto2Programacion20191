@@ -16,16 +16,17 @@ def obtener_complemento(base):
     >>> obtener_complemento('B')
     Traceback (most recent call last):
     ..
-    TypeError: B es una base invalida.
+    ValueError: B no es una base
 
     :param base: Base del ADN a obtener el complemento
     :return: El complemento de la base ingresada
     '''
 
     complemento = '';
+
     letra = base.upper()
 
-    if (letra in ('ATCG')):
+    if (es_base(base)):
 
         if (letra == 'A'):
             complemento = 'T'
@@ -35,8 +36,6 @@ def obtener_complemento(base):
             complemento = 'G'
         if (letra == 'G'):
             complemento = 'C'
-    else:
-        raise TypeError(str(base) + ' es una base invalida.')
 
     return complemento
 
@@ -56,14 +55,13 @@ def generar_cadena_complementaria(adn):
     >>> generar_cadena_complementaria('GCTH')
     Traceback (most recent call last):
     ..
-    TypeError: H es una base invalida.
+    ValueError: H no es una base
 
     :param adn: AND a obneter complemento
     :return: El complemento deL AND ingresado
     '''
 
     cadenaComplementaria = ''
-    complemento = ''
 
     for base in adn:
         cadenaComplementaria += obtener_complemento(base);
@@ -88,6 +86,11 @@ def calcular_correspondencia(adn1, adn2):
 
     >>> calcular_correspondencia('GATA', 'CTA')
     75.0
+
+    >>> calcular_correspondencia('GASS', 'CTA')
+    Traceback (most recent call last):
+    ..
+    ValueError: S no es una base
 
     :param adn1: represnta el primer ADN
     :param adn2: represneta el segundo ADN
@@ -138,6 +141,11 @@ def corresponden(adn1, adn2):
 
     >>> corresponden('GATA', 'CTA')
     False
+
+    >>> corresponden('GATM', 'CTA')
+    Traceback (most recent call last):
+    ..
+    ValueError: M no es una base
 
     :param adn1: represnta el primer ADN
     :param adn2: represneta el segundo ADN
@@ -190,18 +198,16 @@ def es_base(caracter):
 
     >>> es_base('A')
     True
+
     >>> es_base('T')
     True
+
     >>> es_base('C')
     True
+
     >>> es_base('G')
     True
-    >>> es_base('L')
-    False
-    >>> es_base('H')
-    False
-    >>> es_base('a')
-    True
+
     >>> es_base('AT')
     Traceback (most recent call last):
     ..
@@ -210,6 +216,7 @@ def es_base(caracter):
     Traceback (most recent call last):
     ..
     ValueError: BB no es una base
+
     >>> es_base('1')
     Traceback (most recent call last):
     ..
@@ -217,16 +224,12 @@ def es_base(caracter):
 
     """
 
-    if (base == 'A'):
-        return 'T'
-    if(base == 'T'):
-        return 'A'
-    if(base == 'C'):
-        return 'G'
-    if (base == 'G'):
-        return 'C'
+    letra = caracter.upper()
+
+    if len(letra) == 1 and letra in ('ATCG'):
+        return True
     else:
-        raise ValueError (base + ' no es una base')
+        raise ValueError(caracter + ' no es una base')
 
 
 def es_subcadena(adn1, adn2):
@@ -386,12 +389,15 @@ def unir_cadena(lista_adn):
 
 def complementar_cadenas(lista_adn):
     """
-    Una función complemento de cadenas que retorne una cadena complementaria dada una lista de cadenas (debe validar las secuencias)
     (list of str, str) -> list of str
+    Una función complemento de cadenas que retorne una cadena complementaria dada una lista de cadenas (debe validar las secuencias)
+
     >>> complementar_cadenas(['GATATA','TATACA','CAGATCA'])
     ['CTATAT', 'ATATGT', 'GTCTAGT']
+
     >>> complementar_cadenas(['TATACAGA','TATAGA','TCACAG'])
     ['ATATGTCT','ATATCT','AGTGTC']
+
     >>> complementar_cadenas(['AFTAGA','UTASF'])
     Traceback (most recent call last):
     ..
