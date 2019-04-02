@@ -189,12 +189,9 @@ def es_cadena_valida(adn):
 def es_base(caracter):
     """
 
-    Ingresa un caracter, se determina si es True o False
-
     Str -> Bool
 
-    :param caracter: Una letra en mayuscula
-    :return: Si es valida o no
+    Ingresa un caracter, se determina si es True o False
 
     >>> es_base('A')
     True
@@ -221,9 +218,16 @@ def es_base(caracter):
     Traceback (most recent call last):
     ..
     ValueError: 1 no es una base
+    >>> es_base('')
+    Traceback (most recent call last):
+    ..
+    ValueError: Ingrese un caracter
+
+    :param caracter: Una letra en mayuscula
+    :return: Si es valida o no
 
     """
-
+    
     letra = caracter.upper()
 
     if len(letra) == 1 and letra in ('ATCG'):
@@ -231,17 +235,12 @@ def es_base(caracter):
     else:
         raise ValueError(caracter + ' no es una base')
 
-
 def es_subcadena(adn1, adn2):
     """
 
-    Ingresan dos cadenas y se determina si una es complemento de la otra
-
     (Str, Str) -> Bool
 
-    :param adn1: La primera cadena de ADN
-    :param adn2: La segunda cadena de ADN
-    :return: True Or false, rependiendo el caso
+    Ingresan dos cadenas y se determina si una es complemento de la otra
 
     >>> es_subcadena('AGATA','ATA')
     True
@@ -273,6 +272,10 @@ def es_subcadena(adn1, adn2):
     Traceback (most recent call last):
     ..
     ValueError: Una de las cadenas no es valida
+
+    :param adn1: La primera cadena de ADN
+    :param adn2: La segunda cadena de ADN
+    :return: True Or false, rependiendo el caso
 
     """
 
@@ -338,30 +341,66 @@ def reparar_dano(adn, base):
                 lista_2 += base
         return lista_2
 
-
 def obtener_secciones(adn, n):
     """
     Una función obtener secciones que entregue una lista de secciones, dada una cadena de adn y un numero de secciones
     str -> list of str
+
+     >>> obtener_secciones('AGATAGA', 3)
+    'AG ATAGA'
+    >>> obtener_secciones('GATATACA', 4)
+    'GA TATACA'
+
     >>> obtener_secciones('AGATAGA', 3)
     >>> obtener_secciones('GATATACA', 4)
+
     >>> obtener_secciones('tacaga', 2)
-    >>> obtener_secciones('GTI', 2)
+    'TAC AGA'
+    >>> obtener_secciones('ACGC', 'A')
+    Traceback (most recent call last):
+    TypeError: A no es numerico
+    >>> obtener_secciones('ACCG', 0)
     Traceback (most recent call last):
     ..
+    
+    ZeroDivisionError: La división por cero no es posible
+    >>> obtener_secciones('GTI', 2)
+    'GTI no es cadena valida'
+    
     ValueError: la cadena no es valida
+
     :param adn: Ingresa una caracteres representada por adn
     :param n: Ingresa un numero representado por n
     :return: se retornara una lista de las secciones del srt
     """
+
+    validar_cadena = es_cadena_valida(adn)
+    dato = len(adn)
+    if validar_cadena:
+        if (type(n) != float and type(n) != int):
+            raise TypeError(str(n) + ' no es numerico')
+        else:
+            if n > dato:
+                return ValueError('el numero debe ser menor a ' + str(len(adn)))
+            if n < dato:
+                if n > 0:
+                    sec = dato // n
+                    return adn[:sec] + ' ' + adn[sec:]
+                else:
+                    raise ZeroDivisionError('La división por cero no es posible')
+            if n == dato:
+                return ValueError('Los numeros no pueden ser iguales')
+    else:
+        return adn + ' no es cadena valida'
+
 def obtener_complementos(lista_adn):
     """
     Una función complementos_por_secciones que entregue una lista de cadenas de adn complementarias dada una lista de cadenas de adn
     (list of str, str) -> list of str
     >>> obtener_complementos(['GATATACA', 'TATACACA', 'TCTATGTA', 'TAGAGATA','GATA'])
-    ['CTATATGT','ATATGTGT','AGATACAT', 'ATCTCTAT','CTAT']
+    ['CTATATGT','ATATGTGT','AGATACAT','ATCTCTAT','CTAT']
     >>> obtener_complementos(['tagata', 'cataga', 'gataca'])
-     ['ATCTAT', 'GTATGT', 'CTATGT']
+    ['ATCTAT','GTATGT','CTATGT']
     >>> obtener_complementos(['GCTA', 'UTASF'])
     Traceback (most recent call last):
     ..
@@ -370,6 +409,16 @@ def obtener_complementos(lista_adn):
     :param lista_adn: list of str entrega una lista de cadenas complemento
     :return: se retornara una lista de cadenas complementarias
     """
+
+    nueva_lista = []
+    for neu in lista_adn:
+        if es_cadena_valida(neu):
+            chick = complementar_cadenas(neu)
+            nueva_lista += chick
+        else:
+            raise ValueError('Una de las cadenas no es valida')
+    return nueva_lista
+
 def unir_cadena(lista_adn):
     """
     Una función unir cadenas que retorne una cadena de adn dada una lista de cadenas (debe validar que sean secuencias validas)
@@ -381,11 +430,20 @@ def unir_cadena(lista_adn):
     >>> unir_cadena(['FAFSAS', 'UTASF'])
     Traceback (most recent call last):
     ..
-    ValueError: la cadena no es valida
+    ValueError: la cadenas no es valida
 
     :param lista_adn: ingresa una list of str de cadenas adn
     :return: retorna una cadena completa
     """
+    
+    concat = ''
+
+    for list_new in lista_adn:
+        if es_cadena_valida(list_new):
+            concat += str(list_new)
+        else:
+            raise ValueError('la cadenas no es valida')
+    return concat
 
 def complementar_cadenas(lista_adn):
     """
@@ -406,6 +464,15 @@ def complementar_cadenas(lista_adn):
     :param lista_adn: ingresa una list of str de cadenas complemento
     :return:se retornara una lista de cadenas complementarias
     """
-
-
+    
+    lista_nueva = ''
+    for neue in lista_adn:
+        if es_cadena_valida(neue):
+            chiq = generar_cadena_complementaria(neue)
+            if len(neue) == len(chiq):
+                new_chiq = unir_cadena(chiq)
+                lista_nueva += new_chiq
+        else:
+            raise ValueError('las cadenas no es valida')
+    return [lista_nueva[0:len(neue)], lista_nueva[len(neue):len(neue) * 2]]
 
